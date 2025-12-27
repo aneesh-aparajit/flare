@@ -1,4 +1,4 @@
-package io.flare.orchestrator;
+package io.flare.manager;
 
 import io.flare.dto.AddTermDTO;
 import io.flare.dto.DocumentDTO;
@@ -49,6 +49,9 @@ public class IndexManagerImpl implements IndexManager {
     }
 
     /**
+     * This function is incharge of querying documents from an index, this function also reranks the documents
+     * and returns the documents in an order most relevant to that term.
+     * 
      * @param index the index in which you want to search
      * @param term  the term for which you are trying to find documents
      * @param algo  the reranking algorithm by which you want rerank the documents
@@ -63,10 +66,16 @@ public class IndexManagerImpl implements IndexManager {
         return documentDTOS;
     }
 
+    /**
+     * This function returns the TermIndex if that index exists, it will throw an exception.
+     * 
+     * @param index the index where operations are expected to be done.
+     * @return
+     */
     private TermIndex getTermIndex(String index) {
+        // TODO: need to add custom errors, with detailed stack trace instead of RuntimeException.
         return Optional.ofNullable(multiIndexMap.get(index))
                 .orElseThrow(RuntimeException::new);
     }
-
 
 }
